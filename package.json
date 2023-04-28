@@ -12,5 +12,11 @@
     "todo"
   ],
   "author": "bryan@bryanbuchs.com",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.1",
+    "markdown-it": "^13.0.1",
+    "markdown-it-task-lists": "^2.1.1"
+  }
 }
