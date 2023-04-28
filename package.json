@@ -1,0 +1,16 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "cli to manage a TODO.md file",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bryanbuchs/todo"
+  },
+  "keywords": [
+    "markdown",
+    "todo"
+  ],
+  "author": "bryan@bryanbuchs.com",
+  "license": "UNLICENSED"
+}
