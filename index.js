@@ -1,12 +1,7 @@
 #!/usr/bin/env node
 
-// const {
-//   open,
-//   close,
-//   readFile,
-//   appendFile,
-//   writeFile
-// } = require('node:fs/promises')
+'use strict'
+
 const fs = require('node:fs/promises')
 const { resolve } = require('node:path')
 const { program } = require('commander')
