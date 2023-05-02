@@ -1,7 +1,7 @@
 {
   "name": "todo",
-  "version": "1.0.0",
-  "description": "cli to manage a TODO.md file",
+  "version": "0.1.0",
+  "description": "cli to manage a simple TODO.md file",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -14,9 +14,8 @@
   "author": "bryan@bryanbuchs.com",
   "license": "UNLICENSED",
   "dependencies": {
-    "chalk": "^5.2.0",
+    "chalk": "^4.1.2",
     "commander": "^10.0.1",
-    "markdown-it": "^13.0.1",
-    "markdown-it-task-lists": "^2.1.1"
+    "inquirer": "^8.2.5"
   }
 }
