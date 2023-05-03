@@ -88,11 +88,22 @@ program
 program
   .command('add')
   .description('append a new task')
-  .argument('<string>', 'task label, in quotes')
-  .action(async str => {
-    const tasks = await getTasks()
-    await fs.appendFile(todoFile, `- [ ] ${str.trim()}\n`)
-    console.log(chalk.green(`Added "${str}" to ${todoFile}`))
+  .argument('[string]', 'task label, in quotes')
+  .action(async task => {
+    if (!task) {
+      const prompt = await prompts({
+        type: 'text',
+        name: 'task',
+        message: 'Task:'
+      })
+      task = prompt.task
+    }
+
+    if (task) {
+      const tasks = await getTasks()
+      await fs.appendFile(todoFile, `- [ ] ${task.trim()}\n`)
+      console.log(chalk.green(`Added "${task}" to ${todoFile}`))
+    }
   })
 
 program.parseAsync()
