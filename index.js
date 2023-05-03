@@ -6,13 +6,16 @@ const fs = require('node:fs/promises')
 const { resolve } = require('node:path')
 const { program } = require('commander')
 const chalk = require('chalk')
-const inquirer = require('inquirer')
+const prompts = require('prompts')
 
 // =============
 
 const todoFile = 'TODO.md'
 const todoTemplate = '# TODO\n'
 
+// read todoFile
+// get lines that are a markdown checklist
+// map an array of objects `{ title, value, selected }`
 const getTasks = async () => {
   const tasks = []
   const filePath = resolve(todoFile)
@@ -23,19 +26,20 @@ const getTasks = async () => {
       tasks.push(line)
     }
   } catch (e) {
+    // if no file, create one
     writeFile()
   }
 
   return tasks
     .filter(line => line.startsWith('- ['))
     .map((line, i) => ({
-      name: line.substring(6).trim(),
+      title: line.substring(6).trim(),
       value: i,
-      short: i,
-      checked: line.startsWith('- [x]')
+      selected: line.startsWith('- [x]')
     }))
 }
 
+// write the contents argument value to todoFile
 const writeFile = async (contents = todoTemplate) => {
   try {
     await fs.writeFile(todoFile, contents, 'utf8')
@@ -51,51 +55,34 @@ program
   .description('manage a simple TODO.md file')
   .version('0.1.0')
 
-// program.action(async () => {
-//   const tasks = await getTasks()
-//   console.log(chalk.bold('TODO'))
-//   tasks.forEach(el => {
-//     switch (el.checked) {
-//       case true:
-//         console.log(chalk.strikethrough.cyan(`[x] ${el.name}`))
-//         break
-//       default:
-//         console.log(chalk.white(`[ ] ${el.name}`))
-//         break
-//     }
-//   })
-// })
-
 program
   // .command('list')
   .description('list and manage tasks')
   .action(async () => {
     const tasks = await getTasks()
 
-    inquirer
-      .prompt([
-        {
-          type: 'checkbox',
-          name: 'checklist',
-          message: 'Choose tasks to close',
-          choices: tasks
-        }
-      ])
-      .then(async answers => {
-        const markdown = []
-        markdown.push(todoTemplate)
+    const answers = await prompts({
+      type: 'multiselect',
+      name: 'tasks',
+      message: 'Choose tasks to close',
+      choices: tasks,
+      instructions: false,
+      hint: '- Space to select. Return to submit'
+    })
 
-        tasks.forEach((task, i) => {
-          if (answers.checklist.includes(i)) {
-            markdown.push(`- [x] ${task.name}`)
-          } else {
-            markdown.push(`- [ ] ${task.name}`)
-          }
-        })
+    if (answers && 'tasks' in answers) {
+      const markdown = []
+      markdown.push(todoTemplate)
 
-        await writeFile(markdown.join('\n'))
-        console.log(chalk.green(`Updated ${todoFile}`))
+      tasks.forEach((task, i) => {
+        task.state = answers.tasks.includes(i) ? '- [x]' : '- [ ]'
+        markdown.push(`${task.state} ${task.title}`)
       })
+      markdown.push('')
+
+      await writeFile(markdown.join('\n'))
+      console.log(chalk.green(`Updated ${todoFile}`))
+    }
   })
 
 program
@@ -104,11 +91,8 @@ program
   .argument('<string>', 'task label, in quotes')
   .action(async str => {
     const tasks = await getTasks()
-    await fs.appendFile(todoFile, `\n- [ ] ${str.trim()}`)
+    await fs.appendFile(todoFile, `- [ ] ${str.trim()}\n`)
     console.log(chalk.green(`Added "${str}" to ${todoFile}`))
   })
 
 program.parseAsync()
-// .then(() => {
-//   console.log(chalk.red('DONE!'))
-// })
