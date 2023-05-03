@@ -1,21 +1,17 @@
 {
-  "name": "todo",
-  "version": "1.1.1",
+  "name": "todos",
+  "version": "1.2.0",
   "description": "cli to manage a simple TODO.md file",
   "main": "index.js",
   "bin": {
-    "todo": "./index.js"
+    "todos": "./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bryanbuchs/todo"
+    "url": "https://github.com/bryanbuchs/todos"
   },
-  "keywords": [
-    "markdown",
-    "todo"
-  ],
   "author": "bryan@bryanbuchs.com",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^10.0.1",
