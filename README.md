@@ -6,15 +6,15 @@ CLI to manage a `TODO.md` file. Tasks can be added or toggled completed via inte
 
 ## Usage
 
-`> todos`
+`> todo`
 
 ...will list the todos in your file as a multiselect prompt. Choose the tasks to complete, and then save back to the file
 
-`> todos add`
+`> todo add`
 
 ...will open a prompt to add a new task
 
-`> todos add "do this thing"`
+`> todo add "do this thing"`
 
 ...will append a new task to the end of your file
 
