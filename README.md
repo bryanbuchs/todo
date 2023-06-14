@@ -1,6 +1,6 @@
 # TODOS
 
-- `npm i -g @bryanbuchs/todos`
+- `npm i -g bryanbuchs/todos`
 
 CLI to manage a `TODO.md` file. Tasks can be added or toggled completed via interactive prompts. A task can also be added using a cli argument.
 
